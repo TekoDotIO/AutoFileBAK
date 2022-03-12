@@ -47,7 +47,12 @@ namespace AutoFileBAK
                                     foreach (string Drive in NewDrives)
                                     {
                                         Log.SaveLog(Drive + " will be checked.");
-                                        FileSystemReflector.CheckForImage(Drive, "K:/" + DiskIDHelper.GetID(Drive) + "-Image");
+                                        FileSystemReflector fileSystemReflector = new FileSystemReflector();
+                                        fileSystemReflector.Path = Drive;
+                                        fileSystemReflector.ToPath = "K:/" + DiskIDHelper.GetID(Drive) + "-Image";
+                                        ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
+                                        Thread thread = new Thread(threadStart);
+                                        thread.Start();
                                     }
                                     Drives = NowDrives;
                                 }
