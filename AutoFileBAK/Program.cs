@@ -22,13 +22,27 @@ namespace AutoFileBAK
             switch (args.Length)
             {
                 case 0:
+                    Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
                     ShadowProcess.MainProcess(true);
                     
                     break;
                 case 1:
                     switch (args[0])
                     {
+                        case "--Install":
+                            string ThisFile = Process.GetCurrentProcess().MainModule.FileName;
+                            Log.SaveLog("Got path :" + ThisFile);
+                            File.WriteAllText(ThisFile, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.bat");
+                            Log.SaveLog("Created start-up script.");
+                            ShadowProcess.MainProcess(true);
+                            Log.SaveLog("Installed successfully.");
+                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                            Log.SaveLog("Press any key to exit..");
+                            Console.ReadLine();
+                            break;
                         case "--WhiteListMode":
+                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                            Log.SaveLog("Stick your USB Drive into the computer to write it into whitelist.");
                             Drives = Environment.GetLogicalDrives();
                             while (true)
                             {
@@ -61,6 +75,7 @@ namespace AutoFileBAK
                                 }
                             }
                         case "--StartListening":
+                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
                             Drives = Environment.GetLogicalDrives();
                             while (true)
                             {

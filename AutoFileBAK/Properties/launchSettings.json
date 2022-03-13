@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutoFileBAK": {
+      "commandName": "Project",
+      "commandLineArgs": "--StartListening"
+    }
+  }
+}
