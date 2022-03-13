@@ -22,7 +22,7 @@ namespace AutoFileBAK
             switch (args.Length)
             {
                 case 0:
-                    ShadowProcess.MainProcess(false);
+                    ShadowProcess.MainProcess(true);
                     
                     break;
                 case 1:
@@ -92,8 +92,8 @@ namespace AutoFileBAK
                                             //FileSystemReflector.CheckForImage("K:/" + DiskIDHelper.GetID(Drive) + "-Image", Drive + "/AutoFileBAK/" + DiskIDHelper.GetID(Drive) + "-Image");
                                             FileSystemReflector fileSystemReflector = new FileSystemReflector
                                             {
-                                                Path = "K:/" + DiskIDHelper.GetID(Drive) + "-Image",
-                                                ToPath = Drive + "/AutoFileBAK/" + DiskIDHelper.GetID(Drive) + "-Image"
+                                                Path = "./Backups/",
+                                                ToPath = Drive + "/AutoFileBAK/Backups"
                                             };
                                             ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
                                             Thread thread = new Thread(threadStart);
@@ -105,7 +105,7 @@ namespace AutoFileBAK
                                             FileSystemReflector fileSystemReflector = new FileSystemReflector
                                             {
                                                 Path = Drive,
-                                                ToPath = "K:/" + DiskIDHelper.GetID(Drive) + "-Image"
+                                                ToPath = "./Backups/" + DiskIDHelper.GetID(Drive) + "-Image"
                                             };
                                             ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
                                             Thread thread = new Thread(threadStart);
