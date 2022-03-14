@@ -201,6 +201,65 @@ namespace AutoFileBAK
                                     }
 
                                 }
+                                Drives = NowDrives;
+                            }
+                        case "--CopyBackupMode":
+                            Running = Process.GetProcessesByName("AutoFileBAK");
+                            i = 0;
+                            foreach (Process process in Running)
+                            {
+                                i++;
+                            }
+                            if (i != 1)
+                            {
+                                Log.SaveLog("One or more AutoFileBAK Main process is already running.Exiting now...");
+                                return;
+                            }
+                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                            Drives = Environment.GetLogicalDrives();
+                            while (true)
+                            {
+                                //string[] arrRate = new string[] { "a", "b", "c", "d" };//A
+                                //string[] arrTemp = new string[] { "c", "d", "e" };//B
+                                //string[] arrUpd = arrRate.Intersect(arrTemp).ToArray();//相同的数据 （结果：c,d）
+                                //string[] arrAdd = arrRate.Except(arrTemp).ToArray();//A中有B中没有的 （结果：a,b）
+                                //string[] arrNew = arrTemp.Except(arrRate).ToArray();//B中有A中没有的 （结果：e）
+                                NowDrives = Environment.GetLogicalDrives();
+                                string[] NewDrives = NowDrives.Except(Drives).ToArray();
+                                string DriveStringList = "";
+                                foreach (string DriveItem in NowDrives)
+                                {
+                                    DriveStringList += DriveItem + ",";
+                                    Drives = NowDrives;
+                                }
+                                if (NewDrives.Length == 0)
+                                {
+                                    Log.SaveLog("No new devices detected:" + DriveStringList);
+                                    Thread.Sleep(10000);
+                                }
+                                else
+                                {
+                                    foreach (string Drive in NewDrives)
+                                    {
+                                        if (!BlackList.Contains(DiskIDHelper.GetID(Drive)))
+                                        {
+                                            Log.SaveLog("The program is in copy-backup mode.Coping backups into it..");
+                                            //FileSystemReflector.CheckForImage("K:/" + DiskIDHelper.GetID(Drive) + "-Image", Drive + "/AutoFileBAK/" + DiskIDHelper.GetID(Drive) + "-Image");
+                                            FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                            {
+                                                Path = "./Backups/",
+                                                ToPath = Drive + "/AutoFileBAK/Backups"
+                                            };
+                                            ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
+                                            Thread thread = new Thread(threadStart);
+                                            thread.Start();
+                                        }
+                                        else
+                                        {
+                                            Log.SaveLog("This device is in the blacklist..");
+                                        }
+                                    }
+                                }
                             }
                         case "--StartListening":
                             Running = Process.GetProcessesByName("AutoFileBAK");
