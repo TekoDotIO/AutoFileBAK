@@ -53,6 +53,11 @@ namespace AutoFileBAK
                 File.Create("./Setting/WhiteList.txt").Close();
             }
             string WhiteList = File.ReadAllText("./Setting/WhiteList.txt");
+            if (!File.Exists("./Setting/BlackList.txt"))
+            {
+                File.Create("./Setting/BlackList.txt").Close();
+            }
+            string BlackList = File.ReadAllText("./Setting/BlackList.txt");
             switch (args.Length)
             {
                 case 0:
@@ -152,6 +157,51 @@ namespace AutoFileBAK
 
                                 }
                             }
+                        case "--BlackListMode":
+                            Running = Process.GetProcessesByName("AutoFileBAK");
+                            i = 0;
+                            foreach (Process process in Running)
+                            {
+                                i++;
+                            }
+                            if (i != 1)
+                            {
+                                Log.SaveLog("One or more AutoFileBAK Main process is already running.Exiting now...");
+                                return;
+                            }
+                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                            Log.SaveLog("Stick your USB Drive into the computer to write it into blacklist.");
+                            Drives = Environment.GetLogicalDrives();
+                            while (true)
+                            {
+                                //string[] arrRate = new string[] { "a", "b", "c", "d" };//A
+                                //string[] arrTemp = new string[] { "c", "d", "e" };//B
+                                //string[] arrUpd = arrRate.Intersect(arrTemp).ToArray();//相同的数据 （结果：c,d）
+                                //string[] arrAdd = arrRate.Except(arrTemp).ToArray();//A中有B中没有的 （结果：a,b）
+                                //string[] arrNew = arrTemp.Except(arrRate).ToArray();//B中有A中没有的 （结果：e）
+                                NowDrives = Environment.GetLogicalDrives();
+                                string[] NewDrives = NowDrives.Except(Drives).ToArray();
+                                string DriveStringList = "";
+                                foreach (string DriveItem in NowDrives)
+                                {
+                                    DriveStringList += DriveItem + ",";
+                                    Drives = NowDrives;
+                                }
+                                if (NewDrives.Length == 0)
+                                {
+                                    Log.SaveLog("No new devices detected:" + DriveStringList);
+                                    Thread.Sleep(10000);
+                                }
+                                else
+                                {
+                                    foreach (string Drive in NewDrives)
+                                    {
+                                        Log.SaveLog(DiskIDHelper.GetID(Drive) + " added.");
+                                        File.AppendAllText("./Setting/BlackList.txt", "\n" + DiskIDHelper.GetID(Drive));
+                                    }
+
+                                }
+                            }
                         case "--StartListening":
                             Running = Process.GetProcessesByName("AutoFileBAK");
                             i = 0;
@@ -193,6 +243,7 @@ namespace AutoFileBAK
                                         Log.SaveLog(Drive + " will be checked.");
                                         if (WhiteList.Contains(DiskIDHelper.GetID(Drive)))
                                         {
+                                            Log.SaveLog("This device is in the whitelist.Coping backups into it..");
                                             //FileSystemReflector.CheckForImage("K:/" + DiskIDHelper.GetID(Drive) + "-Image", Drive + "/AutoFileBAK/" + DiskIDHelper.GetID(Drive) + "-Image");
                                             FileSystemReflector fileSystemReflector = new FileSystemReflector
                                             {
@@ -205,15 +256,22 @@ namespace AutoFileBAK
                                         }
                                         else
                                         {
-                                            //FileSystemReflector.CheckForImage(Drive, "K:/" + DiskIDHelper.GetID(Drive) + "-Image");
-                                            FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                            if (!BlackList.Contains(DiskIDHelper.GetID(Drive)))
                                             {
-                                                Path = Drive,
-                                                ToPath = "./Backups/" + DiskIDHelper.GetID(Drive) + "-Image"
-                                            };
-                                            ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
-                                            Thread thread = new Thread(threadStart);
-                                            thread.Start();
+                                                //FileSystemReflector.CheckForImage(Drive, "K:/" + DiskIDHelper.GetID(Drive) + "-Image");
+                                                FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                                {
+                                                    Path = Drive,
+                                                    ToPath = "./Backups/" + DiskIDHelper.GetID(Drive) + "-Image"
+                                                };
+                                                ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
+                                                Thread thread = new Thread(threadStart);
+                                                thread.Start();
+                                            }
+                                            else
+                                            {
+                                                Log.SaveLog("This device is in the blacklist..");
+                                            }
                                         }
                                     }
                                     Drives = NowDrives;
