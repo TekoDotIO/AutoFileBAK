@@ -3,6 +3,30 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>枫叶1003</Authors>
+    <Company>相互科技</Company>
+    <Product>AutoFileBAK</Product>
+    <Copyright>Each. Tech. 2022</Copyright>
+    <PackageIcon>科技.png</PackageIcon>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <Version>1.0.0</Version>
+    <ApplicationIcon>www.alltoall.net_sudoitlogoc_fmHuolQOtq.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="www.alltoall.net_sudoitlogoc_fmHuolQOtq.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\科技.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+  </ItemGroup>
 
 </Project>
