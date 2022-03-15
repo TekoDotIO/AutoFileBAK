@@ -131,6 +131,7 @@ namespace AutoFileBAK
                             
                             break;
                         case "--WhiteListMode":
+                            Thread.Sleep(5000);
                             Running = Process.GetProcessesByName("AutoFileBAK");
                             int i = 0;
                             foreach (Process process in Running)
@@ -176,6 +177,7 @@ namespace AutoFileBAK
                                 }
                             }
                         case "--BlackListMode":
+                            Thread.Sleep(5000);
                             Running = Process.GetProcessesByName("AutoFileBAK");
                             i = 0;
                             foreach (Process process in Running)
@@ -222,6 +224,7 @@ namespace AutoFileBAK
                                 Drives = NowDrives;
                             }
                         case "--CopyBackupMode":
+                            Thread.Sleep(5000);
                             Running = Process.GetProcessesByName("AutoFileBAK");
                             i = 0;
                             foreach (Process process in Running)
@@ -280,6 +283,7 @@ namespace AutoFileBAK
                                 }
                             }
                         case "--StartListening":
+                            Thread.Sleep(5000);
                             Running = Process.GetProcessesByName("AutoFileBAK");
                             i = 0;
                             foreach (Process process in Running)
