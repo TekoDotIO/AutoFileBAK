@@ -102,15 +102,33 @@ namespace AutoFileBAK
                             Console.ReadLine();
                             break;
                         case "--Install":
-                            string ThisFile = Process.GetCurrentProcess().MainModule.FileName;
-                            Log.SaveLog("Got path :" + ThisFile);
-                            SetAutoRun(ThisFile, true);
-                            Log.SaveLog("Created start-up registry.");
-                            ShadowProcess.MainProcess(true);
-                            Log.SaveLog("Installed successfully.");
-                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
-                            Log.SaveLog("Press any key to exit..");
-                            Console.ReadLine();
+                            try
+                            {
+                                string ThisFile = Process.GetCurrentProcess().MainModule.FileName;
+                                Log.SaveLog("Got path :" + ThisFile);
+                                SetAutoRun(ThisFile, true);
+                                Log.SaveLog("Created start-up registry.");
+                                ShadowProcess.MainProcess(true);
+                                Log.SaveLog("Installed successfully.");
+                                Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                                Log.SaveLog("Press any key to exit..");
+                                Console.ReadLine();
+                            }
+                            catch(Exception ex)
+                            {
+                                Log.SaveLog(ex.ToString());
+                                Log.SaveLog("Error! Will use path-method to install.");
+                                string ThisFile = Process.GetCurrentProcess().MainModule.FileName;
+                                Log.SaveLog("Got path :" + ThisFile);
+                                File.WriteAllText(ThisFile, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd");
+                                Log.SaveLog("Created start-up script.");
+                                ShadowProcess.MainProcess(true);
+                                Log.SaveLog("Installed successfully.");
+                                Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                                Log.SaveLog("Press any key to exit..");
+                                Console.ReadLine();
+                            }
+                            
                             break;
                         case "--WhiteListMode":
                             Running = Process.GetProcessesByName("AutoFileBAK");
