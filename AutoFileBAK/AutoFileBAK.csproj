@@ -12,6 +12,12 @@
     <FileVersion>1.0.0</FileVersion>
     <Version>1.0.0</Version>
     <ApplicationIcon>www.alltoall.net_sudoitlogoc_fmHuolQOtq.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
