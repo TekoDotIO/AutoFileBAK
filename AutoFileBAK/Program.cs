@@ -96,6 +96,7 @@ namespace AutoFileBAK
                                     Log.SaveLog("Killed process:" + process.Id);
                                 }
                             }
+                            if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd")) File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd");
                             Log.SaveLog("Uninstalled successfully.");
                             Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
                             Log.SaveLog("Press any key to exit..");
@@ -104,9 +105,9 @@ namespace AutoFileBAK
                         case "--Install":
                             try
                             {
-                                string ThisFile = Process.GetCurrentProcess().MainModule.FileName;
-                                Log.SaveLog("Got path :" + ThisFile);
-                                SetAutoRun(ThisFile, true);
+                                string ThisFile2 = Process.GetCurrentProcess().MainModule.FileName;
+                                Log.SaveLog("Got path :" + ThisFile2);
+                                SetAutoRun(ThisFile2, true);
                                 Log.SaveLog("Created start-up registry.");
                                 ShadowProcess.MainProcess(true);
                                 Log.SaveLog("Installed successfully.");
@@ -118,9 +119,9 @@ namespace AutoFileBAK
                             {
                                 Log.SaveLog(ex.ToString());
                                 Log.SaveLog("Error! Will use path-method to install.");
-                                string ThisFile = Process.GetCurrentProcess().MainModule.FileName;
-                                Log.SaveLog("Got path :" + ThisFile);
-                                File.WriteAllText(ThisFile, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd");
+                                string ThisFile3 = Process.GetCurrentProcess().MainModule.FileName;
+                                Log.SaveLog("Got path :" + ThisFile3);
+                                File.WriteAllText(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd", ThisFile3);
                                 Log.SaveLog("Created start-up script.");
                                 ShadowProcess.MainProcess(true);
                                 Log.SaveLog("Installed successfully.");
@@ -129,6 +130,29 @@ namespace AutoFileBAK
                                 Console.ReadLine();
                             }
                             
+                            break;
+                        case "--InstallWithRegistry":
+                            string ThisFile = Process.GetCurrentProcess().MainModule.FileName;
+                            Log.SaveLog("Got path :" + ThisFile);
+                            SetAutoRun(ThisFile, true);
+                            Log.SaveLog("Created start-up registry.");
+                            ShadowProcess.MainProcess(true);
+                            Log.SaveLog("Installed successfully.");
+                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                            Log.SaveLog("Press any key to exit..");
+                            Console.ReadLine();
+                            break;
+                        case "--InstallWithFile":
+                            Log.SaveLog("Will use path-method to install.");
+                            string ThisFile4 = Process.GetCurrentProcess().MainModule.FileName;
+                            Log.SaveLog("Got path :" + ThisFile4);
+                            File.WriteAllText(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd", ThisFile4);
+                            Log.SaveLog("Created start-up script.");
+                            ShadowProcess.MainProcess(true);
+                            Log.SaveLog("Installed successfully.");
+                            Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
+                            Log.SaveLog("Press any key to exit..");
+                            Console.ReadLine();
                             break;
                         case "--WhiteListMode":
                             Thread.Sleep(5000);
