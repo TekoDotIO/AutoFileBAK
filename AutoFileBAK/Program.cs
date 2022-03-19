@@ -357,7 +357,6 @@ namespace AutoFileBAK
                                     Log.SaveLog(ex.ToString());
                                     FtpAble = false;
                                 }
-                                FtpAble = true;
                             }
                             Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
                             Drives = Environment.GetLogicalDrives();
