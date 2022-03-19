@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.IO;
 using Microsoft.Win32;
+using FluentFTP;
+using System.Net;
 
 namespace AutoFileBAK
 {
@@ -321,6 +323,42 @@ namespace AutoFileBAK
                                 Log.SaveLog("One or more AutoFileBAK Main process is already running.Exiting now...");
                                 return;
                             }
+                            FtpClient ftpClient = new FtpClient();
+                            bool FtpAble;
+                            Directory.CreateDirectory("./FtpConfig/");
+                            if (!File.Exists("./FtpConfig/Host.txt")) File.WriteAllText("./FtpConfig/Host.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/Port.txt")) File.WriteAllText("./FtpConfig/Port.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/UserName.txt")) File.WriteAllText("./FtpConfig/UserName.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/Password.txt")) File.WriteAllText("./FtpConfig/Password.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/Path.txt")) File.WriteAllText("./FtpConfig/Path.txt", "./AutoFileBAK");
+                            string Host = File.ReadAllText("./FtpConfig/Host.txt");
+                            string Port = File.ReadAllText("./FtpConfig/Port.txt");
+                            string Password = File.ReadAllText("./FtpConfig/Password.txt"); 
+                            string UserName = File.ReadAllText("./FtpConfig/UserName.txt");
+                            string Path = File.ReadAllText("./FtpConfig/Path.txt");
+                            if (Host == "Disable" || Port == "Disable" || Password == "Disable" || UserName == "Disable" || Path == "Disable")
+                            {
+                                Log.SaveLog("FTP service disabled.");
+                                FtpAble = false;
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    ftpClient.Port = Convert.ToInt32(Port);
+                                    ftpClient.ReadTimeout = 15000;
+                                    ftpClient.Host = Host;
+                                    ftpClient.Credentials = new NetworkCredential(UserName, Password);
+                                    ftpClient.Connect();
+                                    FtpAble = true;
+                                }
+                                catch(Exception ex)
+                                {
+                                    Log.SaveLog(ex.ToString());
+                                    FtpAble = false;
+                                }
+                                FtpAble = true;
+                            }
                             Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
                             Drives = Environment.GetLogicalDrives();
                             while (true)
@@ -351,15 +389,34 @@ namespace AutoFileBAK
                                         if (WhiteList.Contains(DiskIDHelper.GetID(Drive)))
                                         {
                                             Log.SaveLog("This device is in the whitelist.Coping backups into it..");
-                                            //FileSystemReflector.CheckForImage("K:/" + DiskIDHelper.GetID(Drive) + "-Image", Drive + "/AutoFileBAK/" + DiskIDHelper.GetID(Drive) + "-Image");
-                                            FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                            if(FtpAble)
                                             {
-                                                Path = "./Backups/",
-                                                ToPath = Drive + "/AutoFileBAK/Backups"
-                                            };
-                                            ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
-                                            Thread thread = new Thread(threadStart);
-                                            thread.Start();
+                                                //FileSystemReflector.CheckForImage("K:/" + DiskIDHelper.GetID(Drive) + "-Image", Drive + "/AutoFileBAK/" + DiskIDHelper.GetID(Drive) + "-Image");
+                                                FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                                {
+                                                    Path = "./Backups/",
+                                                    ToPath = Drive + "/AutoFileBAK/Backups",
+                                                    ftpClient = ftpClient,
+                                                    UseFtp = true,
+                                                    FtpPath = Path
+                                                };
+                                                ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
+                                                Thread thread = new Thread(threadStart);
+                                                thread.Start();
+                                            }
+                                            else
+                                            {
+                                                //FileSystemReflector.CheckForImage("K:/" + DiskIDHelper.GetID(Drive) + "-Image", Drive + "/AutoFileBAK/" + DiskIDHelper.GetID(Drive) + "-Image");
+                                                FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                                {
+                                                    Path = "./Backups/",
+                                                    ToPath = Drive + "/AutoFileBAK/Backups"
+                                                };
+                                                ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
+                                                Thread thread = new Thread(threadStart);
+                                                thread.Start();
+                                            }
+                                            
                                         }
                                         else
                                         {
@@ -391,7 +448,9 @@ namespace AutoFileBAK
                     }
                     break;
             }
+
         }
+        
     }
 }
 
