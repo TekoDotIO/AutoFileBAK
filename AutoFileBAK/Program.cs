@@ -70,6 +70,59 @@ namespace AutoFileBAK
                 case 1:
                     switch (args[0])
                     {
+                        case "--UploadAllBackupsToFtpInSilent":
+                            Console.WriteLine(Process.GetCurrentProcess().MainModule.FileName);
+                            Process ShadowProcesses = new Process();
+                            ShadowProcesses.StartInfo.CreateNoWindow = true;
+                            ShadowProcesses.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+                            ShadowProcesses.StartInfo.Arguments = "--UploadAllBackupsToFtp";
+                            ShadowProcesses.Start();
+                            Log.SaveLog("Silent FTP uploader process started");
+                            break;
+                        case "--UploadAllBackupsToFtp":
+                            FtpClient ftpClient2 = new FtpClient();
+                            bool FtpAble2 = false;
+                            Directory.CreateDirectory("./FtpConfig/");
+                            if (!File.Exists("./FtpConfig/Host.txt")) File.WriteAllText("./FtpConfig/Host.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/Port.txt")) File.WriteAllText("./FtpConfig/Port.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/UserName.txt")) File.WriteAllText("./FtpConfig/UserName.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/Password.txt")) File.WriteAllText("./FtpConfig/Password.txt", "Disable");
+                            if (!File.Exists("./FtpConfig/Path.txt")) File.WriteAllText("./FtpConfig/Path.txt", "./AutoFileBAK");
+                            string Host2 = File.ReadAllText("./FtpConfig/Host.txt");
+                            string Port2 = File.ReadAllText("./FtpConfig/Port.txt");
+                            string Password2 = File.ReadAllText("./FtpConfig/Password.txt");
+                            string UserName2 = File.ReadAllText("./FtpConfig/UserName.txt");
+                            string Path2 = File.ReadAllText("./FtpConfig/Path.txt");
+                            if (Host2 == "Disable" || Port2 == "Disable" || Password2 == "Disable" || UserName2 == "Disable" || Path2 == "Disable")
+                            {
+                                Log.SaveLog("FTP service disabled.");
+                                FtpAble2 = false;
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    ftpClient2.Port = Convert.ToInt32(Port2);
+                                    ftpClient2.ReadTimeout = 15000;
+                                    ftpClient2.Host = Host2;
+                                    ftpClient2.Credentials = new NetworkCredential(UserName2, Password2);
+                                    ftpClient2.Connect();
+                                    FtpAble2 = true;
+                                    Log.SaveLog("FTP service enabled.");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log.SaveLog(ex.ToString());
+                                    FtpAble2 = false;
+                                    Log.SaveLog("FTP service disabled.");
+                                    return;
+                                }
+                            }
+                            if (FtpAble2)
+                            {
+                                FtpReflector.CheckForImage(ftpClient2, "./Backups", Path2);
+                            }
+                            break;
                         case "--ExitAll":
                             var Running = Process.GetProcessesByName("AutoFileBAK");
                             var ThisID = Process.GetCurrentProcess().Id;
