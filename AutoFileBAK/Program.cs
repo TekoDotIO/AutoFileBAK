@@ -351,11 +351,13 @@ namespace AutoFileBAK
                                     ftpClient.Credentials = new NetworkCredential(UserName, Password);
                                     ftpClient.Connect();
                                     FtpAble = true;
+                                    Log.SaveLog("FTP service enabled.");
                                 }
                                 catch(Exception ex)
                                 {
                                     Log.SaveLog(ex.ToString());
                                     FtpAble = false;
+                                    Log.SaveLog("FTP service disabled.");
                                 }
                             }
                             Log.SaveLog("Each. Tech. 相互科技 2022 All Right Reserved.");
@@ -395,9 +397,6 @@ namespace AutoFileBAK
                                                 {
                                                     Path = "./Backups/",
                                                     ToPath = Drive + "/AutoFileBAK/Backups",
-                                                    ftpClient = ftpClient,
-                                                    UseFtp = true,
-                                                    FtpPath = Path
                                                 };
                                                 ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
                                                 Thread thread = new Thread(threadStart);
@@ -421,15 +420,35 @@ namespace AutoFileBAK
                                         {
                                             if (!BlackList.Contains(DiskIDHelper.GetID(Drive)))
                                             {
-                                                //FileSystemReflector.CheckForImage(Drive, "K:/" + DiskIDHelper.GetID(Drive) + "-Image");
-                                                FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                                if (FtpAble)
                                                 {
-                                                    Path = Drive,
-                                                    ToPath = "./Backups/" + DiskIDHelper.GetID(Drive) + "-Image"
-                                                };
-                                                ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
-                                                Thread thread = new Thread(threadStart);
-                                                thread.Start();
+                                                    Log.SaveLog("FTP:Started.");
+                                                    //FileSystemReflector.CheckForImage(Drive, "K:/" + DiskIDHelper.GetID(Drive) + "-Image");
+                                                    FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                                    {
+                                                        ftpClient = ftpClient,
+                                                        UseFtp = true,
+                                                        FtpPath = Path,
+                                                        Path = Drive,
+                                                        ToPath = "./Backups/" + DiskIDHelper.GetID(Drive) + "-Image"
+                                                    };
+                                                    ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
+                                                    Thread thread = new Thread(threadStart);
+                                                    thread.Start();
+                                                }
+                                                else
+                                                {
+                                                    Log.SaveLog("FTP:Failed.");
+                                                    //FileSystemReflector.CheckForImage(Drive, "K:/" + DiskIDHelper.GetID(Drive) + "-Image");
+                                                    FileSystemReflector fileSystemReflector = new FileSystemReflector
+                                                    {
+                                                        Path = Drive,
+                                                        ToPath = "./Backups/" + DiskIDHelper.GetID(Drive) + "-Image"
+                                                    };
+                                                    ThreadStart threadStart = new ThreadStart(fileSystemReflector.CheckForImage);
+                                                    Thread thread = new Thread(threadStart);
+                                                    thread.Start();
+                                                } 
                                             }
                                             else
                                             {

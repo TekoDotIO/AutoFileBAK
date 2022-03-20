@@ -169,12 +169,12 @@ namespace AutoFileBAK
                     {
                         Directory.CreateDirectory(ToPath + "/" + FirstPath);
                         Log.SaveLog("Created \"" + ToPath + "/" + FirstPath + "\"");
-                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath);
+                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
                     }
                     else
                     {
                         Log.SaveLog("Path \"" + FirstPath + "\" is exists.");
-                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath);
+                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
                     }
                 }
                 //Part of folders.
@@ -196,6 +196,7 @@ namespace AutoFileBAK
                         Log.SaveLog("File \"" + NowFile + "\" copied.");
                         try
                         {
+                            ftpClient.CreateDirectory(FtpPath, true);
                             ftpClient.UploadFile(Path + "/" + NowFile, FtpPath + "/" + NowFile);
                             Log.SaveLog("Uploaded to FTP Server");
                         }
@@ -218,6 +219,7 @@ namespace AutoFileBAK
                             Log.SaveLog("File \"" + NowFile + "\" updated.");
                             try
                             {
+                                ftpClient.CreateDirectory(FtpPath, true);
                                 ftpClient.UploadFile(Path + "/" + NowFile, FtpPath + "/" + NowFile);
                                 Log.SaveLog("Uploaded to FTP Server");
                             }
@@ -237,6 +239,7 @@ namespace AutoFileBAK
         }
         public void CheckForImage()
         {
+            Console.WriteLine(UseFtp);
             try
             {
                 Directory.CreateDirectory(ToPath);
@@ -258,12 +261,18 @@ namespace AutoFileBAK
                     {
                         Directory.CreateDirectory(ToPath + "/" + FirstPath);
                         Log.SaveLog("Created \"" + ToPath + "/" + FirstPath + "\"");
-                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath);
+                        if (UseFtp)
+                        {
+                            CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
+                        }
                     }
                     else
                     {
                         Log.SaveLog("Path \"" + FirstPath + "\" is exists.");
-                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath);
+                        if (UseFtp)
+                        {
+                            CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
+                        }
                     }
                 }
                 //Part of folders.
@@ -287,6 +296,7 @@ namespace AutoFileBAK
                         {
                             try
                             {
+                                ftpClient.CreateDirectory(FtpPath, true);
                                 ftpClient.UploadFile(Path + "/" + NowFile, FtpPath + "/" + NowFile);
                                 Log.SaveLog("Uploaded to FTP Server");
                             }
@@ -312,6 +322,7 @@ namespace AutoFileBAK
                             {
                                 try
                                 {
+                                    ftpClient.CreateDirectory(FtpPath, true);
                                     ftpClient.UploadFile(Path + "/" + NowFile, FtpPath + "/" + NowFile);
                                     Log.SaveLog("Uploaded to FTP Server");
                                 }
