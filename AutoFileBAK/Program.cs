@@ -177,7 +177,7 @@ namespace AutoFileBAK
                                 Log.SaveLog("The program will use path-method to install.");
                                 string ThisFile3 = Process.GetCurrentProcess().MainModule.FileName;
                                 Log.SaveLog("Got path :" + ThisFile3);
-                                File.WriteAllText(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd", "cd \"" + CdPath2 + "\"\n" + ThisFile3);
+                                File.WriteAllText(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd", "cd /d \"" + CdPath2 + "\"\n" + ThisFile3);
                                 Log.SaveLog("Created start-up script.");
                                 ShadowProcess.MainProcess(true);
                                 Log.SaveLog("Installed successfully.");
@@ -203,7 +203,7 @@ namespace AutoFileBAK
                             Log.SaveLog("The program will use path-method to install.");
                             string ThisFile4 = Process.GetCurrentProcess().MainModule.FileName;
                             Log.SaveLog("Got path :" + ThisFile4);
-                            File.WriteAllText(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd", "cd \"" + CdPath + "\"\n" + ThisFile4);
+                            File.WriteAllText(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AutoFileBAK_Main.cmd", "cd /d \"" + CdPath + "\"\n" + ThisFile4);
                             Log.SaveLog("Created start-up script.");
                             ShadowProcess.MainProcess(true);
                             Log.SaveLog("Installed successfully.");
