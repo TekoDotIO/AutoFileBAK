@@ -481,7 +481,7 @@ namespace AutoFileBAK
                                                     {
                                                         ftpClient = ftpClient,
                                                         UseFtp = true,
-                                                        FtpPath = Path,
+                                                        FtpPath = Path + "/" + DiskIDHelper.GetID(Drive) + "-Image",
                                                         Path = Drive,
                                                         ToPath = "./Backups/" + DiskIDHelper.GetID(Drive) + "-Image"
                                                     };
