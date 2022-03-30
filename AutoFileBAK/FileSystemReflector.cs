@@ -169,12 +169,12 @@ namespace AutoFileBAK
                     {
                         Directory.CreateDirectory(ToPath + "/" + FirstPath);
                         Log.SaveLog("Created \"" + ToPath + "/" + FirstPath + "\"");
-                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
+                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath + "/" + FirstPath);
                     }
                     else
                     {
                         Log.SaveLog("Path \"" + FirstPath + "\" is exists.");
-                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
+                        CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath + "/" + FirstPath);
                     }
                 }
                 //Part of folders.
