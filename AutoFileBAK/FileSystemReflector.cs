@@ -121,8 +121,15 @@ namespace AutoFileBAK
                 {
                     if (!((IList)OldFiles).Contains(NowFile))
                     {
-                        File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile);
-                        Log.SaveLog("File \"" + NowFile + "\" copied.");
+                        try
+                        {
+                            File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile);
+                            Log.SaveLog("File \"" + NowFile + "\" copied.");
+                        }
+                        catch(Exception ex)
+                        {
+                            Log.SaveLog("Exception:" + ex.ToString());
+                        }
                     }
                     else
                     {
@@ -192,8 +199,15 @@ namespace AutoFileBAK
                 {
                     if (!((IList)OldFiles).Contains(NowFile))
                     {
-                        File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile);
-                        Log.SaveLog("File \"" + NowFile + "\" copied.");
+                        try
+                        {
+                            File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile);
+                            Log.SaveLog("File \"" + NowFile + "\" copied.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.SaveLog("Exception:" + ex.ToString());
+                        }
                         try
                         {
                             ftpClient.CreateDirectory(FtpPath, true);
@@ -290,8 +304,15 @@ namespace AutoFileBAK
                 {
                     if (!((IList)OldFiles).Contains(NowFile))
                     {
-                        File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile);
-                        Log.SaveLog("File \"" + NowFile + "\" copied.");
+                        try
+                        {
+                            File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile);
+                            Log.SaveLog("File \"" + NowFile + "\" copied.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.SaveLog("Exception:" + ex.ToString());
+                        }
                         if (UseFtp)
                         {
                             try
@@ -316,8 +337,15 @@ namespace AutoFileBAK
                         }
                         else
                         {
-                            File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile, true);
-                            Log.SaveLog("File \"" + NowFile + "\" updated.");
+                            try
+                            {
+                                File.Copy(Path + "/" + NowFile, ToPath + "/" + NowFile);
+                                Log.SaveLog("File \"" + NowFile + "\" copied.");
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.SaveLog("Exception:" + ex.ToString());
+                            }
                             if (UseFtp)
                             {
                                 try

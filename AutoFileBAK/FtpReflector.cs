@@ -66,9 +66,16 @@ namespace AutoFileBAK
                 {
                     if (!((IList)OldFiles).Contains(NowFile))
                     {
-                        ftpClient.UploadFile(Path + "/" + NowFile, ToPath + "/" + NowFile);
-                        ftpClient.SetModifiedTime(ToPath + "/" + NowFile, File.GetLastWriteTime(Path + "/" + NowFile));
-                        Log.SaveLog("FTP:File \"" + NowFile + "\" copied.");
+                        try
+                        {
+                            ftpClient.UploadFile(Path + "/" + NowFile, ToPath + "/" + NowFile);
+                            ftpClient.SetModifiedTime(ToPath + "/" + NowFile, File.GetLastWriteTime(Path + "/" + NowFile));
+                            Log.SaveLog("FTP:File \"" + NowFile + "\" copied.");
+                        }
+                        catch(Exception ex)
+                        {
+                            Log.SaveLog("Exception:" + ex.ToString());
+                        }
                     }
                     else
                     {
@@ -80,9 +87,16 @@ namespace AutoFileBAK
                         }
                         else
                         {
-
-                            ftpClient.UploadFile(Path + "/" + NowFile, ToPath + "/" + NowFile);
-                            ftpClient.SetModifiedTime(ToPath + "/" + NowFile, File.GetLastWriteTime(Path + "/" + NowFile));
+                            try
+                            {
+                                ftpClient.UploadFile(Path + "/" + NowFile, ToPath + "/" + NowFile);
+                                ftpClient.SetModifiedTime(ToPath + "/" + NowFile, File.GetLastWriteTime(Path + "/" + NowFile));
+                                Log.SaveLog("FTP:File \"" + NowFile + "\" copied.");
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.SaveLog("Exception:" + ex.ToString());
+                            }
                             Log.SaveLog("FTP:File \"" + NowFile + "\" updated.");
                         }
                     }
