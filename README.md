@@ -1,5 +1,21 @@
 AutoFileBAK
 
+# 0.项目概述
+
+## 0.1.项目简介
+
+此应用程序项目使用C#语言开发而成,使用.NET Core 3.1作为开发框架.作用是自动复制接入计算机的存储设备内的文件,并且支持识别受信任的白名单存储设备,在其接入时自动将所有备份到的文件拷贝到该设备内.并且项目也支持FTP协议文件传输,支持将备份到的文件自动上传到远程FTP服务器或手动同步所有文件.并且值得一提的是,上述过程均可静默进行,支持开机自启动,即系统没有任何弹窗/执行提示,使用者无法发觉程序的运行.*已知问题:复制文件可能导致系统读写该磁盘速度变慢,上传操作可能导致网络带宽占用
+
+通俗来讲,这个项目可以在对方不知情的情况下拿到他U盘内的文件,也可以识别你的U盘并且把拷到的文件复制进去.当然,我们更提倡使用此程序备份文件.如果您使用此程序从事非法活动,开发者不会为你承担责任.
+
+## 0.2.项目运行
+
+项目需要.NET Core 3.1运行库.目标平台为Windows.*明确不支持其他系统,因为这些系统无法确定盘符.无需尝试.
+
+## 0.3.开源许可
+
+项目采用AGPL-3.0协议进行开源.详情见LICENSE文件.
+
 # 1.如何使用
 
 程序的使用实例主要包括以bat后缀的脚本文件
@@ -50,6 +66,22 @@ AutoFileBAK
 
 
 AutoFileBAK
+
+# 0. Project overview
+
+# 0.1. Project Overview
+
+NET Core 3.1 as the development framework. NET Core 3.1 as the development framework. The purpose of this project is to automatically copy files from the storage device that is connected to the computer, and it supports identifying trusted whitelisted storage devices and automatically copying all backed up files to them when they are connected. And the project also supports FTP protocol file transfer, which supports automatic uploading of the backed up files to a remote FTP server or manual synchronization of all files. And it is worth mentioning that the above process can be carried out silently and supports boot-up, i.e. the system does not have any pop-ups/execution prompts, so the user cannot notice the program running. *Known issues: copying files may cause the system to read and write to the disk slower, upload operations may cause network bandwidth consumption
+
+In layman's terms, this program can get the files on the other party's USB drive without his knowledge, and it can also recognize your USB drive and copy the copied files into it. Of course, we prefer to use this program to backup files. If you use this program for illegal activities, the developer will not be responsible for you.
+
+## 0.2. Running the project
+
+The project requires the .NET Core 3.1 runtime library. The target platform is Windows.* Other systems are explicitly not supported, as they cannot be identified by disk letter. No need to try.
+
+## 0.3. Open Source License
+
+The project uses the AGPL-3.0 protocol for open source . See the LICENSE file for details.
 
 # 1.How to use
 
