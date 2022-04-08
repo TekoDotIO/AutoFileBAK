@@ -279,6 +279,10 @@ namespace AutoFileBAK
                         {
                             CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
                         }
+                        else
+                        {
+                            CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath);
+                        }
                     }
                     else
                     {
@@ -286,6 +290,10 @@ namespace AutoFileBAK
                         if (UseFtp)
                         {
                             CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath, ftpClient, FtpPath);
+                        }
+                        else
+                        {
+                            CheckForImage(Path + "/" + FirstPath, ToPath + "/" + FirstPath);
                         }
                     }
                 }
